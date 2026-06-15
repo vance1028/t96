@@ -76,6 +76,50 @@ function initSchema(conn) {
     CREATE INDEX IF NOT EXISTS idx_pipe_status   ON pipe_segments(status);
     CREATE INDEX IF NOT EXISTS idx_station_district ON pump_stations(district);
     CREATE INDEX IF NOT EXISTS idx_station_status   ON pump_stations(status);
+
+    CREATE TABLE IF NOT EXISTS import_tasks (
+      id              INTEGER PRIMARY KEY AUTOINCREMENT,
+      task_id         TEXT NOT NULL UNIQUE,
+      type            TEXT NOT NULL,
+      entity_type     TEXT NOT NULL,
+      status          TEXT NOT NULL DEFAULT 'pending',
+      total_rows      INTEGER NOT NULL DEFAULT 0,
+      processed_rows  INTEGER NOT NULL DEFAULT 0,
+      inserted_count  INTEGER NOT NULL DEFAULT 0,
+      updated_count   INTEGER NOT NULL DEFAULT 0,
+      skipped_count   INTEGER NOT NULL DEFAULT 0,
+      failed_count    INTEGER NOT NULL DEFAULT 0,
+      options_json    TEXT NOT NULL,
+      file_path       TEXT NOT NULL,
+      file_name       TEXT NOT NULL,
+      encoding        TEXT,
+      error_message   TEXT,
+      result_json     TEXT,
+      created_by      INTEGER,
+      created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+      updated_at      TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS export_tasks (
+      id              INTEGER PRIMARY KEY AUTOINCREMENT,
+      task_id         TEXT NOT NULL UNIQUE,
+      type            TEXT NOT NULL,
+      entity_type     TEXT NOT NULL,
+      status          TEXT NOT NULL DEFAULT 'pending',
+      total_rows      INTEGER NOT NULL DEFAULT 0,
+      exported_rows   INTEGER NOT NULL DEFAULT 0,
+      options_json    TEXT NOT NULL,
+      file_path       TEXT,
+      file_name       TEXT,
+      encoding        TEXT NOT NULL DEFAULT 'utf8',
+      error_message   TEXT,
+      created_by      INTEGER,
+      created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+      updated_at      TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_import_tasks_task_id ON import_tasks(task_id);
+    CREATE INDEX IF NOT EXISTS idx_export_tasks_task_id ON export_tasks(task_id);
   `);
 }
 

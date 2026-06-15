@@ -21,7 +21,9 @@
     "better-sqlite3": "^11.3.0",
     "cors": "^2.8.5",
     "express": "^4.19.2",
-    "jsonwebtoken": "^9.0.2"
+    "iconv-lite": "^0.7.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.2.0"
   },
   "devDependencies": {
     "supertest": "^7.0.0"

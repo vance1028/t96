@@ -7,6 +7,8 @@ const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
 const pipesRouter = require('./routes/pipes');
 const stationsRouter = require('./routes/stations');
+const importRouter = require('./routes/import');
+const exportRouter = require('./routes/export');
 const { sendError } = require('./utils/http');
 
 /**
@@ -33,6 +35,8 @@ function createApp() {
   app.use('/api/users', usersRouter);
   app.use('/api/pipes', pipesRouter);
   app.use('/api/stations', stationsRouter);
+  app.use('/api/import', importRouter);
+  app.use('/api/export', exportRouter);
 
   // 404
   app.use((req, res) => {
